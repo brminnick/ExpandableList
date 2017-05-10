@@ -77,19 +77,15 @@ namespace ExpandableList.Droid
             if (row == null)
                 row = _context.LayoutInflater.Inflate(Resource.Layout.DataListItem, null);
 
-            var subChores = ChoreList[groupPosition].Subchore;
+            var subChores = ChoreList[groupPosition].SubchoreList;
 
             row.FindViewById<TextView>(Resource.Id.DataId).Text = subChores[childPosition].Name;
 
             return row;
         }
 
-        public override int GetChildrenCount(int groupPosition)
-        {
-            char letter = (char)(65 + groupPosition);
-            List<Data> results = ChoreList.FindAll((Data obj) => obj.Id[0].Equals(letter));
-            return results.Count;
-        }
+        public override int GetChildrenCount(int groupPosition) =>
+            ChoreList[groupPosition]?.SubchoreList?.Count ?? 0;
         #endregion
     }
 }

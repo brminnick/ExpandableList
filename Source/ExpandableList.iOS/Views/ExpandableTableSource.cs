@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using UIKit;
 using Foundation;
 
+using ExpandableList.Shared;
+
 namespace ExpandableList.iOS
 {
 	public abstract class ExpandableTableSource<T> : UITableViewSource where T : Chore, new()
@@ -76,11 +78,11 @@ namespace ExpandableList.iOS
 		void CollapseSubItemsAtIndex(UITableView tableView, int index)
 		{
 			var selectedItem = Items[index];
-			if (selectedItem.Subchore == null)
+			if (selectedItem.SubchoreList == null)
 				return;
 
 			var currentIndex = index;
-			foreach (T item in selectedItem.Subchore)
+			foreach (T item in selectedItem.SubchoreList)
 			{
 				Items.Remove(item);
 				tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(++currentIndex, 0) }, UITableViewRowAnimation.Fade);
@@ -93,11 +95,11 @@ namespace ExpandableList.iOS
 		void ExpandItemAtIndex(UITableView tableView, int index)
 		{
 			var selectedItem = Items[index];
-			if (selectedItem.Subchore == null)
+			if (selectedItem.SubchoreList == null)
 				return;
 
 			var currentIndex = index;
-			foreach (T item in selectedItem.Subchore)
+			foreach (T item in selectedItem.SubchoreList)
 			{
 				Items.Insert(++currentIndex, item);
 				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(currentIndex, 0) }, UITableViewRowAnimation.Fade);

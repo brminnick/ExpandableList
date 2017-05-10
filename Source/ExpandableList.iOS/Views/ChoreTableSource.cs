@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using UIKit;
 
+using ExpandableList.Shared;
+
 namespace ExpandableList.iOS
 {
 	public class ChoreTableSource : ExpandableTableSource<Chore>
