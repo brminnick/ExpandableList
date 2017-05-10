@@ -9,7 +9,7 @@ using ExpandableList.Shared;
 
 namespace ExpandableList.iOS
 {
-	public abstract class ExpandableTableSource<T> : UITableViewSource where T : Chore
+	public abstract class ExpandableTableSource<T> : UITableViewSource where T : ExpandableListModel
 	{
 		#region Fields
 		protected int _currentExpandedIndex = -1;
@@ -78,11 +78,11 @@ namespace ExpandableList.iOS
 		void CollapseSubItemsAtIndex(UITableView tableView, int index)
 		{
 			var selectedItem = Items[index];
-			if (selectedItem.SubchoreList == null)
+			if (selectedItem.GetSubList<T>() == null)
 				return;
 
 			var currentIndex = index;
-			foreach (T item in selectedItem.SubchoreList)
+			foreach (T item in selectedItem.GetSubList<T>())
 			{
 				Items.Remove(item);
 				tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(++currentIndex, 0) }, UITableViewRowAnimation.Fade);
@@ -95,11 +95,11 @@ namespace ExpandableList.iOS
 		void ExpandItemAtIndex(UITableView tableView, int index)
 		{
 			var selectedItem = Items[index];
-			if (selectedItem.SubchoreList == null)
+			if (selectedItem.GetSubList<T>() == null)
 				return;
 
 			var currentIndex = index;
-			foreach (T item in selectedItem.SubchoreList)
+			foreach (T item in selectedItem.GetSubList<T>())
 			{
 				Items.Insert(++currentIndex, item);
 				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(currentIndex, 0) }, UITableViewRowAnimation.Fade);

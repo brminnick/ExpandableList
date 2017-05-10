@@ -16,7 +16,7 @@ namespace ExpandableList.Droid
 			SetContentView(Resource.Layout.Main);
 
             var expandableListView = FindViewById<ExpandableListView>(Resource.Id.myExpandableListview);
-			expandableListView.SetAdapter(new ExpandableDataAdapter(this, Chore.CreateChoreList()));
+			expandableListView.SetAdapter(new ExpandableDataAdapter<ChoreModel>(this, ChoreModel.CreateChoreList()));
 
             Title = "Chore List";
 		}
