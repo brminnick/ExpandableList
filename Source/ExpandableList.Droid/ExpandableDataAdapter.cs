@@ -9,15 +9,15 @@ using ExpandableList.Shared;
 
 namespace ExpandableList.Droid
 {
-    public class ExpandableDataAdapter : BaseExpandableListAdapter
+    public class ExpandableDataAdapter<T> : BaseExpandableListAdapter where T : ExpandableListModel
     {
         #region Constant Fields
         readonly Activity _context;
-        readonly List<Chore> _choreList;
+        readonly List<ChoreModel> _choreList;
         #endregion
 
         #region Constructors
-        public ExpandableDataAdapter(Activity newContext, List<Chore> newList)
+        public ExpandableDataAdapter(Activity newContext, List<ChoreModel> newList)
         {
             _context = newContext;
             _choreList = newList;
@@ -26,12 +26,12 @@ namespace ExpandableList.Droid
 
         #region Properties
         public override bool HasStableIds => true;
-		public override int GroupCount => ChoreList.Count;
-        protected List<Chore> ChoreList => _choreList;
-		#endregion
+        public override int GroupCount => ChoreList.Count;
+        protected List<ChoreModel> ChoreList => _choreList;
+        #endregion
 
-		#region Methods
-		public override Java.Lang.Object GetChild(int groupPosition, int childPosition)
+        #region Methods
+        public override Java.Lang.Object GetChild(int groupPosition, int childPosition)
         {
             throw new NotImplementedException();
         }
@@ -77,7 +77,7 @@ namespace ExpandableList.Droid
             if (row == null)
                 row = _context.LayoutInflater.Inflate(Resource.Layout.DataListItem, null);
 
-            var subChores = ChoreList[groupPosition].SubchoreList;
+            var subChores = ChoreList[groupPosition].GetSubList<ChoreModel>();
 
             row.FindViewById<TextView>(Resource.Id.DataId).Text = subChores[childPosition].Name;
 
@@ -85,7 +85,7 @@ namespace ExpandableList.Droid
         }
 
         public override int GetChildrenCount(int groupPosition) =>
-            ChoreList[groupPosition]?.SubchoreList?.Count ?? 0;
+            ChoreList[groupPosition]?.GetSubList<T>()?.Count ?? 0;
         #endregion
     }
 }

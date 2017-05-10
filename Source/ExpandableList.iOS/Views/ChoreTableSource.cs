@@ -7,14 +7,14 @@ using ExpandableList.Shared;
 
 namespace ExpandableList.iOS
 {
-	public class ChoreTableSource : ExpandableTableSource<Chore>
+	public class ChoreTableSource : ExpandableTableSource<ChoreModel>
 	{
 		#region Constant Fields
 		const string _cellIdentifier = "taskcell";
 		#endregion
 
 		#region Constructors
-		public ChoreTableSource(List<Chore> items)
+		public ChoreTableSource(List<ChoreModel> items)
 		{
 			Items = items;
 		}
@@ -37,7 +37,7 @@ namespace ExpandableList.iOS
 			return cell;
 		}
 
-		public Chore GetItem(int id)
+		public ChoreModel GetItem(int id)
 		{
 			return Items[id];
 		}
