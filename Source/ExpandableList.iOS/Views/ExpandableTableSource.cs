@@ -9,7 +9,7 @@ using ExpandableList.Shared;
 
 namespace ExpandableList.iOS
 {
-	public abstract class ExpandableTableSource<T> : UITableViewSource where T : Chore, new()
+	public abstract class ExpandableTableSource<T> : UITableViewSource where T : Chore
 	{
 		#region Fields
 		protected int _currentExpandedIndex = -1;

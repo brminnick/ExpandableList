@@ -40,5 +40,7 @@
 	<string>ExpandableList</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.minnick.expandablelist</string>
+	<key>UILaunchStoryboardName</key>
+	<string>Storyboards/MainStoryboard</string>
 </dict>
 </plist>

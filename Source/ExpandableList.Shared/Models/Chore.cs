@@ -4,12 +4,21 @@ namespace ExpandableList.Shared
 {
     public class Chore
     {
+        #region Properties
         public int Id { get; set; }
         public string Name { get; set; }
         public bool Done { get; set; }
-
         public List<Chore> SubchoreList { get; set; }
+        #endregion
 
+        #region Constructors
+        private Chore()
+        {
+            
+        }
+        #endregion
+
+        #region Methods
         public static List<Chore> CreateChoreList()
         {
             var groceriesDetails = new List<Chore>
@@ -32,6 +41,7 @@ namespace ExpandableList.Shared
 
             return new List<Chore> { groceryChore, carWashChore };
         }
+        #endregion
     }
 }
 
