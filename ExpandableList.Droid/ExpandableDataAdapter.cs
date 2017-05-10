@@ -5,26 +5,29 @@ using Android.App;
 using Android.Views;
 using Android.Widget;
 
+using ExpandableList.Shared;
+
 namespace ExpandableList.Droid
 {
     public class ExpandableDataAdapter : BaseExpandableListAdapter
     {
         #region Constant Fields
         readonly Activity _context;
+        readonly List<Chore> _choreList;
         #endregion
 
         #region Constructors
-        public ExpandableDataAdapter(Activity newContext, List<Data> newList)
+        public ExpandableDataAdapter(Activity newContext, List<Chore> newList)
         {
             _context = newContext;
-            DataList = newList;
+            _choreList = newList;
         }
         #endregion
 
         #region Properties
         public override bool HasStableIds => true;
-		public override int GroupCount => 26;
-		protected List<Data> DataList { get; set; }
+		public override int GroupCount => ChoreList.Count;
+        protected List<Chore> ChoreList => _choreList;
 		#endregion
 
 		#region Methods
@@ -55,27 +58,28 @@ namespace ExpandableList.Droid
 
         public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
         {
-            View header = convertView;
+            var header = convertView;
+
             if (header == null)
             {
                 header = _context.LayoutInflater.Inflate(Resource.Layout.ListGroup, null);
             }
-            header.FindViewById<TextView>(Resource.Id.DataHeader).Text = ((char)(65 + groupPosition)).ToString();
+
+            header.FindViewById<TextView>(Resource.Id.DataHeader).Text = ChoreList[groupPosition].Name;
 
             return header;
         }
 
         public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView, ViewGroup parent)
         {
-            View row = convertView;
+            var row = convertView;
+
             if (row == null)
-            {
                 row = _context.LayoutInflater.Inflate(Resource.Layout.DataListItem, null);
-            }
-            string newId = "", newValue = "";
-            GetChildViewHelper(groupPosition, childPosition, out newId, out newValue);
-            row.FindViewById<TextView>(Resource.Id.DataId).Text = newId;
-            row.FindViewById<TextView>(Resource.Id.DataValue).Text = newValue;
+
+            var subChores = ChoreList[groupPosition].Subchore;
+
+            row.FindViewById<TextView>(Resource.Id.DataId).Text = subChores[childPosition].Name;
 
             return row;
         }
@@ -83,16 +87,8 @@ namespace ExpandableList.Droid
         public override int GetChildrenCount(int groupPosition)
         {
             char letter = (char)(65 + groupPosition);
-            List<Data> results = DataList.FindAll((Data obj) => obj.Id[0].Equals(letter));
+            List<Data> results = ChoreList.FindAll((Data obj) => obj.Id[0].Equals(letter));
             return results.Count;
-        }
-
-        void GetChildViewHelper(int groupPosition, int childPosition, out string Id, out string Value)
-        {
-            char letter = (char)(65 + groupPosition);
-            List<Data> results = DataList.FindAll((Data obj) => obj.Id[0].Equals(letter));
-            Id = results[childPosition].Id;
-            Value = results[childPosition].Value;
         }
         #endregion
     }

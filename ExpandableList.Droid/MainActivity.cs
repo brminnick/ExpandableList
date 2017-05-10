@@ -13,8 +13,8 @@ namespace ExpandableList.Droid
 
 			SetContentView(Resource.Layout.Main);
 
-			var listView = FindViewById<ExpandableListView>(Resource.Id.myExpandableListview);
-			listView.SetAdapter(new ExpandableDataAdapter(this, Data.SampleData()));
+            var expandableListView = FindViewById<ExpandableListView>(Resource.Id.myExpandableListview);
+			expandableListView.SetAdapter(new ExpandableDataAdapter(this, Data.SampleData()));
 		}
 	}
 }
