@@ -90,6 +90,11 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="RandomNameGeneratorLibrary">
+      <HintPath>..\packages\RandomNameGeneratorLibrary.1.2.2.0\lib\netstandard1.6\RandomNameGeneratorLibrary.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -106,6 +111,7 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <Compile Include="ViewControllers\ViewController.cs" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />

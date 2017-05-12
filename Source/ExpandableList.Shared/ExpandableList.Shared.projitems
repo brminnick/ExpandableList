@@ -9,7 +9,7 @@
     <Import_RootNamespace>ExpandableList.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ChoreModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LocationModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ExpandableListModel.cs" />
   </ItemGroup>
   <ItemGroup>
