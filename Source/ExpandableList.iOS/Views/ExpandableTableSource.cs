@@ -12,8 +12,10 @@ namespace ExpandableList.iOS
 	public abstract class ExpandableTableSource<T> : UITableViewSource where T : ExpandableListModel
 	{
 		#region Fields
-		protected int _currentExpandedIndex = -1;
+		protected int _currentExpandedRowIndex = -1;
+		protected int _currentExpandedSectionIndex = -1;
 		protected int _totalExpandedRows;
+		protected T _expandedCellSource;
 		#endregion
 
 		#region Properties
@@ -32,25 +34,30 @@ namespace ExpandableList.iOS
 			}
 
 			tableView.BeginUpdates();
-			if (_currentExpandedIndex == indexPath.Row)
+			if (_currentExpandedRowIndex == indexPath.Row && _currentExpandedSectionIndex == indexPath.Section)
 			{
-				CollapseSubItemsAtIndex(tableView, _currentExpandedIndex);
+				CollapseSubItems(tableView);
 			}
 			else
 			{
 				var numberOfExpandedRowsWhenTapped = _totalExpandedRows;
-				var expandedRowIndexWhenTapped = _currentExpandedIndex;
+				var expandedRowIndexWhenTapped = _currentExpandedRowIndex;
+				var expandedSectionIndexWhenTapped = _currentExpandedSectionIndex;
 
-				var shouldCollapse = _currentExpandedIndex > -1;
+				var shouldCollapse = _currentExpandedRowIndex > -1 && _currentExpandedSectionIndex > -1;
 
 				if (shouldCollapse)
 				{
-					CollapseSubItemsAtIndex(tableView, expandedRowIndexWhenTapped);
-					ExpandItemAtIndex(tableView, indexPath.Row - numberOfExpandedRowsWhenTapped);
+					CollapseSubItems(tableView);
+					ExpandItemAtIndex(tableView,
+									  indexPath,
+									  numberOfExpandedRowsWhenTapped,
+									  expandedRowIndexWhenTapped,
+									  expandedSectionIndexWhenTapped);
 				}
 				else
 				{
-					ExpandItemAtIndex(tableView, indexPath.Row);
+					ExpandItemAtIndex(tableView, indexPath);
 				}
 
 			}
@@ -59,14 +66,14 @@ namespace ExpandableList.iOS
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return Items.Count + ((_currentExpandedIndex > -1) ? 1 : 0);
+			return Items.Count + ((_currentExpandedRowIndex > -1) ? 1 : 0);
 		}
 
 		protected bool IsChild(NSIndexPath indexPath)
 		{
-			return _currentExpandedIndex > -1 &&
-				   indexPath.Row > _currentExpandedIndex &&
-				   indexPath.Row <= _currentExpandedIndex + _totalExpandedRows;
+			return _currentExpandedRowIndex > -1 &&
+				   indexPath.Row > _currentExpandedRowIndex &&
+				   indexPath.Row <= _currentExpandedRowIndex + _totalExpandedRows;
 		}
 
 		void HandleChildSelected(UITableView tableView, NSIndexPath indexPath)
@@ -75,38 +82,61 @@ namespace ExpandableList.iOS
 			tableView.DeselectRow(indexPath, true);
 		}
 
-		void CollapseSubItemsAtIndex(UITableView tableView, int index)
+		void CollapseSubItems(UITableView tableView)
 		{
-			var selectedItem = Items[index];
-			if (selectedItem.GetSubList<T>() == null)
+			if (_expandedCellSource?.GetSubList<T>() == null)
 				return;
 
-			var currentIndex = index;
-			foreach (T item in selectedItem.GetSubList<T>())
+			var currentRowIndex = _currentExpandedRowIndex;
+			foreach (T item in _expandedCellSource.GetSubList<T>())
 			{
 				Items.Remove(item);
-				tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(++currentIndex, 0) }, UITableViewRowAnimation.Fade);
+				tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(++currentRowIndex, _currentExpandedSectionIndex) }, UITableViewRowAnimation.Fade);
 			}
 
-			_currentExpandedIndex = -1;
+			_currentExpandedSectionIndex = -1;
+			_currentExpandedRowIndex = -1;
 			_totalExpandedRows = 0;
+			_expandedCellSource = null;
 		}
 
-		void ExpandItemAtIndex(UITableView tableView, int index)
+		void ExpandItemAtIndex(UITableView tableView,
+							   NSIndexPath indexPath,
+							   int numberOfExpandedRowsWhenTapped = 0,
+							   int expandedRowIndexWhenTapped = 0,
+							   int expandedSectionIndexWhenTapped = 0)
 		{
-			var selectedItem = Items[index];
-			if (selectedItem.GetSubList<T>() == null)
+			var shouldSubstractNumberOfExpandedRows =
+			   indexPath.Section == expandedSectionIndexWhenTapped &&
+						indexPath.Row > expandedRowIndexWhenTapped;
+
+			nint selectedItemIndex = 0;
+			for (int section = 0; section < indexPath.Section; section++)
+			{
+				selectedItemIndex += tableView.NumberOfRowsInSection(section);
+			}
+			selectedItemIndex += indexPath.Row;
+
+			if (shouldSubstractNumberOfExpandedRows)
+				selectedItemIndex -= numberOfExpandedRowsWhenTapped;
+
+			_expandedCellSource = Items[(int)selectedItemIndex];
+			_currentExpandedSectionIndex = indexPath.Section;
+			_currentExpandedRowIndex =
+				shouldSubstractNumberOfExpandedRows ?
+				indexPath.Row - numberOfExpandedRowsWhenTapped : indexPath.Row;
+
+			if (_expandedCellSource?.GetSubList<T>() == null)
 				return;
 
-			var currentIndex = index;
-			foreach (T item in selectedItem.GetSubList<T>())
+			var currentRowIndex = indexPath.Row;
+			var currentItemsIndex = (int)selectedItemIndex;
+			foreach (T item in _expandedCellSource.GetSubList<T>())
 			{
-				Items.Insert(++currentIndex, item);
-				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(currentIndex, 0) }, UITableViewRowAnimation.Fade);
+				Items.Insert(++currentItemsIndex, item);
+				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(++currentRowIndex, indexPath.Section) }, UITableViewRowAnimation.Fade);
 				_totalExpandedRows++;
 			}
-
-			_currentExpandedIndex = index;
 		}
 		#endregion
 	}
