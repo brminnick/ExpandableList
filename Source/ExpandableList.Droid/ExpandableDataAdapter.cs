@@ -13,11 +13,11 @@ namespace ExpandableList.Droid
     {
         #region Constant Fields
         readonly Activity _context;
-        readonly List<ChoreModel> _choreList;
+        readonly List<LocationModel> _choreList;
         #endregion
 
         #region Constructors
-        public ExpandableDataAdapter(Activity newContext, List<ChoreModel> newList)
+        public ExpandableDataAdapter(Activity newContext, List<LocationModel> newList)
         {
             _context = newContext;
             _choreList = newList;
@@ -27,7 +27,7 @@ namespace ExpandableList.Droid
         #region Properties
         public override bool HasStableIds => true;
         public override int GroupCount => ChoreList.Count;
-        protected List<ChoreModel> ChoreList => _choreList;
+        protected List<LocationModel> ChoreList => _choreList;
         #endregion
 
         #region Methods
@@ -77,7 +77,7 @@ namespace ExpandableList.Droid
             if (row == null)
                 row = _context.LayoutInflater.Inflate(Resource.Layout.DataListItem, null);
 
-            var subChores = ChoreList[groupPosition].GetSubList<ChoreModel>();
+            var subChores = ChoreList[groupPosition].GetSubList<LocationModel>();
 
             row.FindViewById<TextView>(Resource.Id.DataId).Text = subChores[childPosition].Name;
 

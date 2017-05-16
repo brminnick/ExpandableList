@@ -16,9 +16,9 @@ namespace ExpandableList.Droid
 			SetContentView(Resource.Layout.Main);
 
             var expandableListView = FindViewById<ExpandableListView>(Resource.Id.myExpandableListview);
-			expandableListView.SetAdapter(new ExpandableDataAdapter<ChoreModel>(this, ChoreModel.CreateChoreList()));
+			expandableListView.SetAdapter(new ExpandableDataAdapter<LocationModel>(this, LocationModel.CreateLocationList()));
 
-            Title = "Chore List";
+            Title = "Locations Around The World";
 		}
 	}
 }

@@ -1,6 +1,6 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
+// This file has been generated automatically by Visual Studio from the outlets and
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
@@ -16,13 +16,13 @@ namespace ExpandableList.iOS
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView MasterView { get; set; }
+        UIKit.UITableView LocationTableView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (MasterView != null) {
-                MasterView.Dispose ();
-                MasterView = null;
+            if (LocationTableView != null) {
+                LocationTableView.Dispose ();
+                LocationTableView = null;
             }
         }
     }
