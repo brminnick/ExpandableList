@@ -23,9 +23,9 @@ namespace ExpandableList.iOS
 		{
 			base.ViewWillAppear(animated);
 
-            MasterView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+            LocationTableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 
-			MasterView.Source = new LocationTableSource(_locationList);
+			LocationTableView.Source = new LocationTableSource(_locationList);
 		}
 	}
 }
