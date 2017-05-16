@@ -10,22 +10,22 @@ namespace ExpandableList.iOS
 {
 	public partial class ViewController : UITableViewController
 	{
-		List<LocationModel> _choreList;
+        List<LocationModel> _locationList;
 
 		public ViewController(IntPtr handle) : base(handle)
 		{
 			Title = "Locations Around The World";
 
-            _choreList = LocationModel.CreateLocationList();
+            _locationList = LocationModel.CreateLocationList();
 		}
 
 		public override void ViewWillAppear(bool animated)
 		{
 			base.ViewWillAppear(animated);
 
-            TableView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
+            MasterView.SeparatorStyle = UITableViewCellSeparatorStyle.None;
 
-			TableView.Source = new ChoreTableSource(_choreList);
+			MasterView.Source = new LocationTableSource(_locationList);
 		}
 	}
 }

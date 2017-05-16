@@ -75,7 +75,7 @@ namespace ExpandableList.iOS
                    _currentExpandedSectionIndex > -1 &&
                    indexPath.Section == _currentExpandedSectionIndex &&
                    indexPath.Row > _currentExpandedRowIndex &&
-                   indexPath.Row <= _currentExpandedRowIndex + _totalExpandedRows;
+                   indexPath.Row <= _currentExpandedRowIndex + _totalExpandedRows; 
         }
 
         void HandleChildSelected(UITableView tableView, NSIndexPath indexPath)

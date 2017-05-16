@@ -116,7 +116,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Views\ChoreTableSource.cs" />
+    <Compile Include="Views\LocationTableSource.cs" />
     <Compile Include="Views\ExpandableTableSource.cs" />
     <Compile Include="ViewControllers\ViewController.designer.cs" />
   </ItemGroup>

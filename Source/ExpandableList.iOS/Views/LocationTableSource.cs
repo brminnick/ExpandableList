@@ -9,14 +9,14 @@ using ExpandableList.Shared;
 
 namespace ExpandableList.iOS
 {
-    public class ChoreTableSource : ExpandableTableSource<LocationModel>
+    public class LocationTableSource : ExpandableTableSource<LocationModel>
     {
         #region Constant Fields
         const string _cellIdentifier = "taskcell";
         #endregion
 
         #region Constructors
-        public ChoreTableSource(List<LocationModel> items)
+        public LocationTableSource(List<LocationModel> items)
         {
             Items = items.OrderBy(x => x.Continent).ThenBy(x => x.Name).ToList();
         }
