@@ -15,7 +15,7 @@ namespace ExpandableList.Droid
 
 			SetContentView(Resource.Layout.Main);
 
-            var expandableListView = FindViewById<ExpandableListView>(Resource.Id.myExpandableListview);
+            var expandableListView = FindViewById<StickyListHeadersListView>(Resource.Id.expandableListView);
 			expandableListView.SetAdapter(new ExpandableDataAdapter<LocationModel>(this, LocationModel.CreateLocationList()));
 
             Title = "Locations Around The World";

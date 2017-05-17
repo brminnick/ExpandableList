@@ -54,7 +54,15 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data.cs" />
-    <Compile Include="ExpandableDataAdapter.cs" />
+    <Compile Include="Views\StickyListHeaders\AdapterWrapper.cs" />
+    <Compile Include="Views\StickyListHeaders\CheckableWrapperView.cs" />
+    <Compile Include="Views\StickyListHeaders\SectionIndexerAdapterWrapper.cs" />
+    <Compile Include="Views\StickyListHeaders\StickyListHeadersListVIew.cs" />
+    <Compile Include="Views\StickyListHeaders\WrapperView.cs" />
+    <Compile Include="Views\StickyListHeaders\Interfaces\IOnHeaderAdapterClickListener.cs" />
+    <Compile Include="Views\StickyListHeaders\Interfaces\IOnHeaderListClickListener.cs" />
+    <Compile Include="Views\StickyListHeaders\Interfaces\IStickyListHeadersAdapter.cs" />
+    <Compile Include="Views\ExpandableDataAdapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -75,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <Import Project="..\ExpandableList.Shared\ExpandableList.Shared.projitems" Label="Shared" Condition="Exists('..\ExpandableList.Shared\ExpandableList.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

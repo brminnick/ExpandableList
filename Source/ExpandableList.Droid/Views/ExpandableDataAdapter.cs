@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using Android.App;
@@ -13,21 +14,21 @@ namespace ExpandableList.Droid
     {
         #region Constant Fields
         readonly Activity _context;
-        readonly List<LocationModel> _choreList;
+        readonly List<LocationModel> _locationList;
         #endregion
 
         #region Constructors
         public ExpandableDataAdapter(Activity newContext, List<LocationModel> newList)
         {
             _context = newContext;
-            _choreList = newList;
+            _locationList = newList.OrderBy(x => x.Continent).ThenBy(x => x.Name).ToList();
         }
         #endregion
 
         #region Properties
         public override bool HasStableIds => true;
-        public override int GroupCount => ChoreList.Count;
-        protected List<LocationModel> ChoreList => _choreList;
+        public override int GroupCount => Enum.GetNames(typeof(ContinentType)).Length;
+        protected List<LocationModel> LocationList => _locationList;
         #endregion
 
         #region Methods
@@ -65,7 +66,7 @@ namespace ExpandableList.Droid
                 header = _context.LayoutInflater.Inflate(Resource.Layout.ListGroup, null);
             }
 
-            header.FindViewById<TextView>(Resource.Id.DataHeader).Text = ChoreList[groupPosition].Name;
+            header.FindViewById<TextView>(Resource.Id.DataHeader).Text = ((ContinentType)groupPosition).ToString();
 
             return header;
         }
@@ -77,15 +78,15 @@ namespace ExpandableList.Droid
             if (row == null)
                 row = _context.LayoutInflater.Inflate(Resource.Layout.DataListItem, null);
 
-            var subChores = ChoreList[groupPosition].GetSubList<LocationModel>();
+            var continentChildren = LocationList.Where(x => x.Continent.Equals((ContinentType)groupPosition)).ToList();
 
-            row.FindViewById<TextView>(Resource.Id.DataId).Text = subChores[childPosition].Name;
+            row.FindViewById<TextView>(Resource.Id.DataId).Text = continentChildren[childPosition].Name;
 
             return row;
         }
 
         public override int GetChildrenCount(int groupPosition) =>
-            ChoreList[groupPosition]?.GetSubList<T>()?.Count ?? 0;
+            LocationList.Where(x => x.Continent.Equals((ContinentType)groupPosition)).Count();
         #endregion
     }
 }
