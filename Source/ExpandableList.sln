@@ -3,9 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandableList.iOS", "ExpandableList.iOS\ExpandableList.iOS.csproj", "{18B5A016-BE3C-468A-8D88-7CD4F12E4A7E}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExpandableList.Shared", "ExpandableList.Shared\ExpandableList.Shared.shproj", "{54D6C23D-AFE3-4C37-A1AB-F506723EAA99}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandableList.Droid", "ExpandableList.Droid\ExpandableList.Droid.csproj", "{3CB514B2-EF89-49B3-85D6-AD3D85BC1C0A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A26C29D5-3DB8-4BD1-A8DA-847C510132F0}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpandableList", "ExpandableList\ExpandableList.csproj", "{0325ED1A-98F9-4947-9A20-A77FFFC309DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,6 +46,18 @@ Global
 		{3CB514B2-EF89-49B3-85D6-AD3D85BC1C0A}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
 		{3CB514B2-EF89-49B3-85D6-AD3D85BC1C0A}.AppStore|iPhone.ActiveCfg = Release|Any CPU
 		{3CB514B2-EF89-49B3-85D6-AD3D85BC1C0A}.AppStore|iPhone.Build.0 = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Release|iPhone.Build.0 = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Ad-Hoc|iPhone.ActiveCfg = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.Ad-Hoc|iPhone.Build.0 = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.AppStore|iPhone.ActiveCfg = Release|Any CPU
+		{0325ED1A-98F9-4947-9A20-A77FFFC309DF}.AppStore|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = StoryboardTable\StoryboardTable.csproj

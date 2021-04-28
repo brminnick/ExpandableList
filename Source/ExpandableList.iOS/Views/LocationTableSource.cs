@@ -1,28 +1,21 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
-
-using UIKit;
+using System.Linq;
 using Foundation;
-
-using ExpandableList.Shared;
+using UIKit;
 
 namespace ExpandableList.iOS
 {
     public class LocationTableSource : ExpandableTableSource<LocationModel>
     {
-        #region Constant Fields
         const string _cellIdentifier = "taskcell";
-        #endregion
 
-        #region Constructors
-        public LocationTableSource(List<LocationModel> items)
+        public LocationTableSource(IEnumerable<LocationModel> items)
+            : base(items.OrderBy(x => x.Continent).ThenBy(x => x.Name))
         {
-            Items = items.OrderBy(x => x.Continent).ThenBy(x => x.Name).ToList();
-        }
-        #endregion
 
-        #region Methods
+        }
+
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             var cell = tableView.DequeueReusableCell(_cellIdentifier);
@@ -34,21 +27,14 @@ namespace ExpandableList.iOS
             return cell;
         }
 
-        public override string TitleForHeader(UITableView tableView, nint section)
-        {
-            return ((ContinentType)(int)section).ToString();
-        }
+        public override string TitleForHeader(UITableView tableView, nint section) =>
+            ((ContinentType)(int)section).ToString();
 
-        public override nint NumberOfSections(UITableView tableView)
-        {
-            return Enum.GetNames(typeof(ContinentType)).Length;
-        }
-        public override nint RowsInSection(UITableView tableview, nint section)
-        {
-            return Items.Count(x => x.Continent == ((ContinentType)(int)section));
-        }
+        public override nint NumberOfSections(UITableView tableView) =>
+            Enum.GetNames(typeof(ContinentType)).Length;
 
-        #endregion
+        public override nint RowsInSection(UITableView tableview, nint section) =>
+            Items.Count(x => x.Continent == ((ContinentType)(int)section));
     }
 }
 

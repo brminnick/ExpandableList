@@ -1,31 +1,20 @@
 using System;
 using System.Collections.Generic;
-
+using System.ComponentModel;
+using System.Linq;
 using RandomNameGeneratorLibrary;
 
-namespace ExpandableList.Shared
+namespace ExpandableList
 {
     public class LocationModel : ExpandableListModel
     {
-        #region Properties
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public ContinentType Continent { get; private set; }
+        public string Id { get; } = new Guid().ToString();
+        public string Name { get; init; } = string.Empty;
+        public ContinentType Continent { get; init; } = ContinentType.Unknown;
 
-        List<LocationModel> LocationSubList { get; set; }
-        #endregion
+        IReadOnlyList<LocationModel> LocationSubList { get; set; } = Array.Empty<LocationModel>();
 
-        #region Constructors
-        private LocationModel()
-        {
-            Id = new Guid().ToString();
-            Name = string.Empty;
-            Continent = ContinentType.Unknown;
-        }
-        #endregion
-
-        #region Methods
-        public static List<LocationModel> CreateLocationList()
+        public static IReadOnlyList<LocationModel> CreateLocationList()
         {
             var random = new Random((int)DateTime.Now.Ticks);
             var taskModelList = new List<LocationModel>();
@@ -48,10 +37,7 @@ namespace ExpandableList.Shared
             return taskModelList;
         }
 
-        public override List<LocationModel> GetSubList<LocationModel>()
-        {
-            return LocationSubList as List<LocationModel>;
-        }
+        public override IReadOnlyList<LocationModel> GetSubList<LocationModel>() => LocationSubList.Cast<LocationModel>().ToList();
 
         static LocationModel GenerateRandomLocation(ContinentType continent)
         {
@@ -63,7 +49,6 @@ namespace ExpandableList.Shared
                 Continent = continent
             };
         }
-        #endregion
     }
 
     public enum ContinentType
@@ -79,3 +64,8 @@ namespace ExpandableList.Shared
     }
 }
 
+namespace System.Runtime.CompilerServices
+{
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public record IsExternalInit;
+}

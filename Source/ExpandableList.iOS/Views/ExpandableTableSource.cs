@@ -1,28 +1,23 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Collections.Generic;
-
-using UIKit;
+using System.Diagnostics;
+using System.Linq;
 using Foundation;
-
-using ExpandableList.Shared;
+using UIKit;
 
 namespace ExpandableList.iOS
 {
     public abstract class ExpandableTableSource<T> : UITableViewSource where T : ExpandableListModel
     {
-        #region Fields
         protected int _currentExpandedRowIndex = -1;
         protected int _currentExpandedSectionIndex = -1;
         protected int _totalExpandedRows;
-        protected T _expandedCellSource;
-        #endregion
+        protected T? _expandedCellSource;
 
-        #region Properties
-        public List<T> Items { get; set; }
-        #endregion
+        protected ExpandableTableSource(IEnumerable<T> items) => Items = items.ToList();
 
-        #region Methods
+        protected List<T> Items { get; }
+
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             tableView.DeselectRow(indexPath, true);
@@ -36,7 +31,7 @@ namespace ExpandableList.iOS
             tableView.BeginUpdates();
             if (_currentExpandedRowIndex == indexPath.Row && _currentExpandedSectionIndex == indexPath.Section)
             {
-                CollapseSubItems(tableView, indexPath);
+                CollapseSubItems(tableView);
             }
             else
             {
@@ -48,7 +43,7 @@ namespace ExpandableList.iOS
 
                 if (shouldCollapse)
                 {
-                    CollapseSubItems(tableView, indexPath);
+                    CollapseSubItems(tableView);
                     ExpandItemAtIndex(tableView,
                                       indexPath,
                                       numberOfExpandedRowsWhenTapped,
@@ -75,7 +70,7 @@ namespace ExpandableList.iOS
                    _currentExpandedSectionIndex > -1 &&
                    indexPath.Section == _currentExpandedSectionIndex &&
                    indexPath.Row > _currentExpandedRowIndex &&
-                   indexPath.Row <= _currentExpandedRowIndex + _totalExpandedRows; 
+                   indexPath.Row <= _currentExpandedRowIndex + _totalExpandedRows;
         }
 
         void HandleChildSelected(UITableView tableView, NSIndexPath indexPath)
@@ -84,9 +79,9 @@ namespace ExpandableList.iOS
             tableView.DeselectRow(indexPath, true);
         }
 
-        void CollapseSubItems(UITableView tableView, NSIndexPath indexPath)
+        void CollapseSubItems(UITableView tableView)
         {
-			if (_expandedCellSource?.GetSubList<T>() == null)
+            if (_expandedCellSource?.GetSubList<T>() == null)
                 return;
 
             var currentRowIndex = _currentExpandedRowIndex;
@@ -135,13 +130,12 @@ namespace ExpandableList.iOS
 
             var currentRowIndex = _currentExpandedRowIndex;
             var currentItemsIndex = (int)selectedItemIndex;
-            foreach (T item in _expandedCellSource.GetSubList<T>())
+            foreach (T item in _expandedCellSource?.GetSubList<T>() ?? Array.Empty<T>())
             {
                 Items.Insert(++currentItemsIndex, item);
                 tableView.InsertRows(new[] { NSIndexPath.FromRowSection(++currentRowIndex, indexPath.Section) }, UITableViewRowAnimation.Fade);
                 _totalExpandedRows++;
             }
         }
-        #endregion
     }
 }
